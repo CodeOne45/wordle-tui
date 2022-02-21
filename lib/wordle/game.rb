@@ -7,7 +7,7 @@ module Wordle
         # Global variables
         def initialize
             @words_list = List.new
-            @options = read_option
+            @options = read_options
             # Get a word to guess
             @word_to_guess = generate_word
         end
@@ -21,13 +21,13 @@ module Wordle
             puts "Guess a 5 letter word:"
             guesses = []
 
-            while guesses.length <= 5 && !over
+            while guesses.length < 6 && !over
                 # Get player input
                 input_guess = gets.chomp
 
-                guess_valid = GuessValidator.new(guess, @words_list)
+                guess_valid = GuessValidator.new(input_guess, @words_list)
                 if guess_valid.invalid?
-                    puts guess_valid.errors
+                    puts guess_valid.error
                     next
                 end 
 
@@ -37,7 +37,7 @@ module Wordle
                 # Add guess world into the guesses list
                 guesses << analyzer.squares
 
-                if analyzer.matche?
+                if analyzer.match?
                     over = true
                     break
                 end
@@ -50,9 +50,9 @@ module Wordle
 
         def generate_word
             if @options[:identifier]
-                @list.by_hash(@options[:identifier])
+                @words_list.by_hash(@options[:identifier])
             else
-                @list.random
+                @words_list.random
             end
         end
 
@@ -73,7 +73,7 @@ module Wordle
             end
       
             options
-          end
-
-
+        end
+    end
+end
 

@@ -1,5 +1,5 @@
 task default: %w[test]
 
-task :run do
-  ruby 'lib/main.rb'
+task :wordle do
+  ruby 'exe/wordle.exe'
 end
